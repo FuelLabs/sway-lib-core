@@ -286,8 +286,6 @@ pub trait Ord {
     }
 }
 
-
-
 impl Ord for u64 {
     fn gt(self, other: Self) -> bool {
         asm(r1: self, r2: other, r3) {
