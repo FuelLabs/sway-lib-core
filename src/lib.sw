@@ -1,4 +1,4 @@
 library core;
 
-dep ops;
 dep num;
+dep ops;
