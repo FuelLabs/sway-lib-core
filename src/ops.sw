@@ -320,6 +320,38 @@ pub trait Ord {
     fn gt(self, other: Self) -> bool;
     fn lt(self, other: Self) -> bool;
     fn le(self, other: Self) -> bool;
+} {
+    fn le(self, other: Self) -> bool {
+        asm(r1: self, r2: other, r3, r4) {
+            gt r3 r1 r2;
+            not r4 r3;
+
+            r4: bool
+        }
+    }
+    fn ge(self, other: Self) -> bool {
+        asm(r1: self, r2: other, r3, r4) {
+            lt r3 r1 r2;
+            not r4 r3;
+            
+            r4: bool
+        }
+    }
+    fn neq(self, other: Self) -> bool {
+        // TODO unary operator negation
+
+        // Fix this ugly block which uses assembly rather than 
+        // importing and utilizing an eq method
+        asm(r1: self, r2: other, r3) {
+            eq r3 r1 r2
+        }
+
+        if r3 {
+            false
+        } else {
+            true
+        }
+    }
 }
 
 impl Ord for u64 {
@@ -333,15 +365,6 @@ impl Ord for u64 {
         asm(r1: self, r2: other, r3) {
             lt r3 r1 r2;
             r3: bool
-        }
-    }
-    fn le(self, other: Self) -> bool {
-        asm(r1: self, r2: other, r3, r4 ,r5){
-            lt r3 r1 r2;
-            eq r4 r1 r2;
-            or r5 r3 r4;
-
-            r5: bool
         }
     }
 }
@@ -359,15 +382,6 @@ impl Ord for u32 {
             r3: bool
         }
     }
-    fn le(self, other: Self) -> bool {
-        asm(r1: self, r2: other, r3, r4 ,r5){
-            lt r3 r1 r2;
-            eq r4 r1 r2;
-            or r5 r3 r4;
-
-            r5: bool
-        }
-    }
 }
 
 impl Ord for u16 {
@@ -383,15 +397,6 @@ impl Ord for u16 {
             r3: bool
         }
     }
-    fn le(self, other: Self) -> bool {
-        asm(r1: self, r2: other, r3, r4 ,r5){
-            lt r3 r1 r2;
-            eq r4 r1 r2;
-            or r5 r3 r4;
-
-            r5: bool
-        }
-    }
 }
 
 impl Ord for u8 {
@@ -405,15 +410,6 @@ impl Ord for u8 {
         asm(r1: self, r2: other, r3) {
             lt r3 r1 r2;
             r3: bool
-        }
-    }
-    fn le(self, other: Self) -> bool {
-        asm(r1: self, r2: other, r3, r4 ,r5){
-            lt r3 r1 r2;
-            eq r4 r1 r2;
-            or r5 r3 r4;
-
-            r5: bool
         }
     }
 }
