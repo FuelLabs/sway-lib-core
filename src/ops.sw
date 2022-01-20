@@ -319,7 +319,6 @@ impl Eq for b256 {
 pub trait Ord {
     fn gt(self, other: Self) -> bool;
     fn lt(self, other: Self) -> bool;
-    fn le(self, other: Self) -> bool;
 } {
     fn le(self, other: Self) -> bool {
         asm(r1: self, r2: other, r3, r4) {
@@ -342,11 +341,13 @@ pub trait Ord {
 
         // Fix this ugly block which uses assembly rather than 
         // importing and utilizing an eq method
-        asm(r1: self, r2: other, r3) {
-            eq r3 r1 r2
-        }
+        let is_equal:bool = asm(r1: self, r2: other, r3) {
+            eq r3 r1 r2;
 
-        if r3 {
+            r3: bool
+        };
+
+        if is_equal {
             false
         } else {
             true
