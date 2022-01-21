@@ -332,16 +332,16 @@ pub trait Ord {
         asm(r1: self, r2: other, r3, r4) {
             lt r3 r1 r2;
             not r4 r3;
-            
+
             r4: bool
         }
     }
     fn neq(self, other: Self) -> bool {
         // TODO unary operator negation
 
-        // Fix this ugly block which uses assembly rather than 
+        // Fix this ugly block which uses assembly rather than
         // importing and utilizing an eq method
-        let is_equal:bool = asm(r1: self, r2: other, r3) {
+        let is_equal: bool = asm(r1: self, r2: other, r3) {
             eq r3 r1 r2;
 
             r3: bool
