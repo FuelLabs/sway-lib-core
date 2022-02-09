@@ -200,6 +200,46 @@ impl Mod for u8 {
     }
 }
 
+pub trait Pow {
+    fn pow(self, other: Self) -> Self;
+}
+
+impl Pow for u64 {
+    fn pow(self, other: Self) -> Self {
+        asm(r1: self, r2: other, r3) {
+            exp r3 r1 r2;
+            r3: u64
+        }
+    }
+}
+
+impl Pow for u32 {
+    fn pow(self, other: Self) -> Self {
+        asm(r1: self, r2: other, r3) {
+            exp r3 r1 r2;
+            r3: u32
+        }
+    }
+}
+
+impl Pow for u16 {
+    fn pow(self, other: Self) -> Self {
+        asm(r1: self, r2: other, r3) {
+            exp r3 r1 r2;
+            r3: u16
+        }
+    }
+}
+
+impl Pow for u8 {
+    fn pow(self, other: Self) -> Self {
+        asm(r1: self, r2: other, r3) {
+            exp r3 r1 r2;
+            r3: u8
+        }
+    }
+}
+
 pub trait Shiftable {
     fn lsh(self, other: Self) -> Self;
     fn rsh(self, other: Self) -> Self;
